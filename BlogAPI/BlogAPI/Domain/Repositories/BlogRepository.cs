@@ -79,7 +79,8 @@ namespace BlogAPI.Domain.Repositories
                 var comment = await context.Comments.FirstOrDefaultAsync(x => x.Id == commentId).ConfigureAwait(false);
                 if (comment != null)
                 {
-                    comment.IsActive = false;
+                    comment.IsActive = false; // так якщо щось то потім можна знайти того хто залишив поганий комент :)
+                    // context.Remove(comment);
                 }
                 else
                 {
