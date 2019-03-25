@@ -20,103 +20,72 @@ namespace BlogAPI.Domain.Repositories
 
         public async Task<PostEntity> CreatePost(PostEntity postEntity)
         {
-            try
+            using (var context = _blogContextFactory.CreateDbContext(null))
             {
-                using (var context = _blogContextFactory.CreateDbContext(null))
-                {
-                    postEntity.Id = Guid.NewGuid();
-                    postEntity.CreatedOn = DateTime.Now;
+                postEntity.Id = Guid.NewGuid();
+                postEntity.CreatedOn = DateTime.Now;
 
-                    await context.Posts.AddAsync(postEntity).ConfigureAwait(false);
-                    await context.SaveChangesAsync();
+                await context.Posts.AddAsync(postEntity).ConfigureAwait(false);
+                await context.SaveChangesAsync();
 
-                    return postEntity;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
+                return postEntity;
             }
         }
         public async Task<CommentEntity> CreateComment(CommentEntity commentEntity)
         {
-            try
+            using (var context = _blogContextFactory.CreateDbContext(null))
             {
-                using (var context = _blogContextFactory.CreateDbContext(null))
-                {
-                    var post = await context.Posts.FirstOrDefaultAsync(x => x.Id == commentEntity.PostId && x.IsActive == true).ConfigureAwait(false);
-                    if (post == null)
-                        throw new Exception($"Post with id: {commentEntity.PostId} was not found");
-                    commentEntity.Id = Guid.NewGuid();
-                    commentEntity.CreatedOn = DateTime.Now;
+                var post = await context.Posts.FirstOrDefaultAsync(x => x.Id == commentEntity.PostId && x.IsActive == true).ConfigureAwait(false);
+                if (post == null)
+                    throw new Exception($"Post with id: {commentEntity.PostId} was not found");
+                commentEntity.Id = Guid.NewGuid();
+                commentEntity.CreatedOn = DateTime.Now;
 
-                    await context.Comments.AddAsync(commentEntity);
-                    await context.SaveChangesAsync();
-                    return commentEntity;
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw e;
+                await context.Comments.AddAsync(commentEntity);
+                await context.SaveChangesAsync();
+                return commentEntity;
             }
         }
 
         public async Task<List<CommentEntity>> GetCommentsRelatedPost(Guid postId)
         {
-            try
+            using (var context = _blogContextFactory.CreateDbContext(null))
             {
-                using (var context = _blogContextFactory.CreateDbContext(null))
-                {
-                    var comments = await context.Comments.Where(x => x.PostId == postId && x.IsActive == true).OrderBy(x => x.CreatedOn).ToListAsync().ConfigureAwait(false);
-                    return comments;
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw e;
+                var comments = await context.Comments.Where(x => x.PostId == postId && x.IsActive == true).OrderBy(x => x.CreatedOn).ToListAsync().ConfigureAwait(false);
+                return comments;
             }
         }
         public async Task<List<PostEntity>> GetAllPosts()
         {
-            try
+            using (var context = _blogContextFactory.CreateDbContext(null))
             {
-                using (var context = _blogContextFactory.CreateDbContext(null))
+                var posts = await context.Posts.Where(x => x.IsActive == true).OrderBy(x => x.CreatedOn).ToListAsync().ConfigureAwait(false);
+                if (posts.Count > 0)
                 {
-                    var posts = await context.Posts.Where(x => x.IsActive == true).OrderBy(x => x.CreatedOn).ToListAsync().ConfigureAwait(false);
-                    return posts;
+                    foreach(var post in posts)
+                    {
+                        var comments = await context.Comments.Where(x => x.PostId == post.Id && x.IsActive == true).OrderBy(x => x.CreatedOn).ToListAsync().ConfigureAwait(false);
+                        post.Comments = comments;
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-
-                throw;
+                return posts;
             }
         }
 
         public async Task DeleteComment(Guid commentId)
         {
-            try
+            using (var context = _blogContextFactory.CreateDbContext(null))
             {
-                using (var context = _blogContextFactory.CreateDbContext(null))
+                var comment = await context.Comments.FirstOrDefaultAsync(x => x.Id == commentId).ConfigureAwait(false);
+                if (comment != null)
                 {
-                    var comment = await context.Comments.FirstOrDefaultAsync(x => x.Id == commentId).ConfigureAwait(false);
-                    if (comment != null)
-                    {
-                        comment.IsActive = false;
-                    }
-                    else
-                    {
-                        throw new Exception($"Comment whith id:{commentId} was not found");
-                    }
-                    await context.SaveChangesAsync(); 
+                    comment.IsActive = false;
                 }
-            }
-            catch (Exception e)
-            {
-
-                throw;
+                else
+                {
+                    throw new Exception($"Comment whith id:{commentId} was not found");
+                }
+                await context.SaveChangesAsync();
             }
         }
     }

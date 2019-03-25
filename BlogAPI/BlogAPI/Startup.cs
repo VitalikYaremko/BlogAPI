@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlogAPI.Data.Context;
+using BlogAPI.Domain.Extensions;
 using BlogAPI.Infrastructure.DependencyInjection;
 using BlogAPI.Infrastructure.Modules;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +50,7 @@ namespace BlogAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.HandleErrors();
 
             using (var scope = app.ApplicationServices.CreateScope())
             {
