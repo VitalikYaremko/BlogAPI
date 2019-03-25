@@ -22,7 +22,7 @@ namespace BlogAPI.Data.Context
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             base.OnModelCreating(modelBuilder);
         }
-        public DbSet<PostEntity> PostEntities { get; set; }
-        public DbSet<CommentEntity> CommentEntities { get; set; }
+        public DbSet<PostEntity> Posts { get; set; }
+        public DbSet<CommentEntity> Comments { get; set; }
     }
 }

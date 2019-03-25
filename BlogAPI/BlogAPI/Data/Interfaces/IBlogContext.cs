@@ -9,7 +9,7 @@ namespace BlogAPI.Data.Interfaces
 {
     public interface IBlogContext
     {
-        DbSet<PostEntity> PostEntities { get; set; }
-        DbSet<CommentEntity> CommentEntities { get; set; }
+        DbSet<PostEntity> Posts { get; set; }
+        DbSet<CommentEntity> Comments { get; set; }
     }
 }

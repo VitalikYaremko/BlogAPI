@@ -11,3 +11,4 @@ namespace BlogAPI.Infrastructure.DependencyInjection
         void ConfigureServices(IServiceCollection services);
     }
 }
+ 
