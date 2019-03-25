@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "ad39c2c2-4dd3-41fd-a2a7-7f7f51e1ec1b",
+		"name": "BlogAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreatePost",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Header\":\"Header\",\n\t\"Content\":\"Content\",\n\t\"Footer\":\"Footer\",\n\t\"UserName\":\"Vitalik\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44367/api/blog/post",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44367",
+					"path": [
+						"api",
+						"blog",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateComment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Content\":\"Content\",\n\t\"UserName\":\"Sergey\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44367/api/blog/post/e3b32a6a-39d3-4234-bd9e-8bb7a3442130/comment",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44367",
+					"path": [
+						"api",
+						"blog",
+						"post",
+						"e3b32a6a-39d3-4234-bd9e-8bb7a3442130",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllPosts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44367/api/blog/posts",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44367",
+					"path": [
+						"api",
+						"blog",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": " GetAllCommentsRelatedPost",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44367/api/blog/post/e3b32a6a-39d3-4234-bd9e-8bb7a3442130/comments",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44367",
+					"path": [
+						"api",
+						"blog",
+						"post",
+						"e3b32a6a-39d3-4234-bd9e-8bb7a3442130",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Comment",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44367/api/blog/post/4c23fcba-b072-4db0-8398-2dd1f3772f49/comment/4c23fcba-b072-4db0-8398-2dd1f3772f49",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44367",
+					"path": [
+						"api",
+						"blog",
+						"post",
+						"4c23fcba-b072-4db0-8398-2dd1f3772f49",
+						"comment",
+						"4c23fcba-b072-4db0-8398-2dd1f3772f49"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
